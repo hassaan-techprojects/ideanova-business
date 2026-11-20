@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum QuizCategory {
+  FINANCE
+  MARKETING
+  HR
+  BUSINESS_STRATEGY
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  EXPIRED
+}
+
+model Participant {
+  id        String        @id @default(cuid())
+  name      String
+  createdAt DateTime      @default(now())
+  attempts  QuizAttempt[]
+}
+
+model Question {
+  id            String         @id @default(cuid())
+  category      QuizCategory
+  question      String         @db.Text
+  options       Json
+  correctAnswer Int
+  explanation   String         @db.Text
+  difficulty    Int            @default(5)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  answers       QuizAnswer[]
+}
+
+model QuizAttempt {
+  id              String        @id @default(cuid())
+  participantId   String
+  participant     Participant   @relation(fields: [participantId], references: [id])
+  status          AttemptStatus @default(IN_PROGRESS)
+  score           Int           @default(0)
+  totalQuestions  Int           @default(20)
+  correctAnswers  Int           @default(0)
+  questionIds Json @default("[]")
+  startedAt       DateTime      @default(now())
+  expiresAt       DateTime
+  completedAt     DateTime?
+  durationSeconds Int?
+  answers         QuizAnswer[]
+
+  @@index([participantId])
+  @@index([score])
+  @@index([completedAt])
+}
+
+model QuizAnswer {
+  id             String      @id @default(cuid())
+  attemptId      String
+  attempt        QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId     String
+  question       Question    @relation(fields: [questionId], references: [id])
+  selectedAnswer Int?
+  isCorrect      Boolean     @default(false)
+  pointsAwarded  Int         @default(0)
+  answeredAt     DateTime    @default(now())
+
+  @@unique([attemptId, questionId])
+  @@index([attemptId])
+}
