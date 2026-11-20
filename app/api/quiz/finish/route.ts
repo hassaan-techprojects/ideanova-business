@@ -90,12 +90,15 @@ export async function POST(request: Request) {
       };
     });
 
-    if ("error" in result) {
-      return NextResponse.json(
-        { success: false, message: result.error },
-        { status: result.status }
-      );
-    }
+   if ("error" in result) {
+  const httpStatus =
+    typeof result.status === "number" ? result.status : 500;
+
+  return NextResponse.json(
+    { success: false, message: result.error },
+    { status: httpStatus }
+  );
+}
 
     return NextResponse.json({
       success: true,

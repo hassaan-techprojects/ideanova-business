@@ -173,7 +173,7 @@ export async function GET() {
           category: getCategory(title, description),
         };
       })
-     .filter((article) => article !== null);
+    .filter(Boolean);
 
     return NextResponse.json(
       {
