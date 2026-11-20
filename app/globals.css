@@ -2437,3 +2437,220 @@ button {
   outline: 2px solid var(--orange);
   outline-offset: 4px;
 }
+
+
+
+/* IISc BOOT CAMP REGISTRATION */
+
+.bootcamp-card {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  margin-top: 38px;
+  overflow: hidden;
+  border: 1px solid rgba(237, 120, 57, 0.28);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 14px 40px rgba(23, 25, 22, 0.09);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.bootcamp-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(237, 120, 57, 0.5);
+  box-shadow: 0 20px 48px rgba(237, 120, 57, 0.13);
+}
+
+.bootcamp-content {
+  padding: 30px;
+}
+
+.bootcamp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  border: 1px solid rgba(237, 120, 57, 0.25);
+  border-radius: 50px;
+  background: rgba(237, 120, 57, 0.07);
+  color: #d96529;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.bootcamp-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ed7839;
+  box-shadow: 0 0 0 4px rgba(237, 120, 57, 0.12);
+  animation: bootcamp-pulse 1.8s infinite;
+}
+
+@keyframes bootcamp-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(237, 120, 57, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(237, 120, 57, 0.04);
+  }
+}
+
+.bootcamp-title {
+  margin-top: 20px;
+  color: #171916;
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.bootcamp-date {
+  margin-top: 12px;
+  color: #d96529;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bootcamp-description {
+  margin-top: 17px;
+  color: #62635d;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.bootcamp-coordinator {
+  margin-top: 21px;
+  padding-left: 15px;
+  border-left: 2px solid #ed7839;
+}
+
+.bootcamp-coordinator strong {
+  display: block;
+  color: #171916;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bootcamp-coordinator span {
+  display: block;
+  margin-top: 5px;
+  color: #85867e;
+  font-size: 12px;
+}
+
+.bootcamp-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 27px;
+}
+
+.bootcamp-register {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  background: #ed7839;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow:
+    0 8px 22px rgba(237, 120, 57, 0.22),
+    0 0 0 5px rgba(237, 120, 57, 0.07);
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.bootcamp-register:hover {
+  transform: translateY(-3px);
+  background: #d96529;
+  box-shadow:
+    0 12px 28px rgba(237, 120, 57, 0.34),
+    0 0 0 7px rgba(237, 120, 57, 0.09);
+}
+
+.bootcamp-register svg {
+  transition: transform 0.3s ease;
+}
+
+.bootcamp-register:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.bootcamp-note {
+  color: #85867e;
+  font-size: 11px;
+}
+
+.bootcamp-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 30px;
+  border-top: 1px solid rgba(237, 120, 57, 0.13);
+  background: rgba(237, 120, 57, 0.045);
+  color: #85867e;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.register {
+  color: #ffffff !important;
+  background: #171916 !important;
+}
+
+.register:hover {
+  color: #ffffff !important;
+  background: #064dd1 !important;
+}
+
+@media (max-width: 640px) {
+  .bootcamp-card {
+    margin-top: 28px;
+    border-radius: 16px;
+  }
+
+  .bootcamp-content {
+    padding: 23px 20px;
+  }
+
+  .bootcamp-title {
+    font-size: 25px;
+  }
+
+  .bootcamp-register {
+    width: 100%;
+  }
+
+  .bootcamp-footer {
+    flex-direction: column;
+    padding: 14px 20px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bootcamp-card,
+  .bootcamp-register,
+  .bootcamp-register svg {
+    transition: none;
+  }
+
+  .bootcamp-status-dot {
+    animation: none;
+  }
+}

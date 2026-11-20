@@ -48,7 +48,7 @@ const focusAreas = [
 ];
 
 const boardMembers = [
-  { designation: "President", name: "Mohamed Arshan K", number: "01" },
+  { designation: "President", name: "Mohamed Arshan K", number: "01"},
   { designation: "Vice President", name: "Abhishek K", number: "02" },
   { designation: "Secretary", name: "Vaishnavi K Revankar", number: "03" },
   { designation: "Treasurer", name: "Mohammed Sulaiman", number: "04" },
@@ -232,6 +232,61 @@ export default function Home() {
                 Explore what we do
                 <span>↓</span>
               </a>
+            </div>
+
+            {/* IISc BOOT CAMP REGISTRATION */}
+
+            <div className="mt-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-[#ed7839]/30 bg-white/[0.96] shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
+              <div className="p-6 sm:p-8">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#ed7839]/30 bg-[#ed7839]/[0.07] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#d96529]">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-[#ed7839]" />
+                  Student Registration Open
+                </span>
+
+                <h2 className="mt-5 text-2xl font-semibold leading-tight text-[#171916] sm:text-3xl">
+                  Two-Day Boot Camp on Ideation
+                </h2>
+
+                <p className="mt-3 text-sm font-semibold text-[#d96529]">
+                  IISc Bengaluru · 25–26 November 2026
+                </p>
+
+                <p className="mt-4 text-sm leading-7 text-[#555650]">
+                  Dear Students, please use the registration form to register
+                  for the Two-Day Boot Camp on Ideation at IISc Bengaluru.
+                  Take this opportunity to explore ideas, develop creative
+                  thinking and strengthen your entrepreneurial perspective.
+                </p>
+
+                <div className="mt-5 border-l-2 border-[#ed7839] pl-4">
+                  <p className="text-sm font-semibold text-[#171916]">
+                    Dr. Adil Ellikkal
+                  </p>
+                  <p className="mt-1 text-xs text-[#77786f]">
+                    Entrepreneurship Club Coordinator
+                  </p>
+                </div>
+
+                <div className="mt-7 flex flex-col items-start gap-3">
+                 <a
+  href="https://forms.gle/PJksWnT7RNWrJUep8"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="register inline-flex min-h-14 items-center justify-center gap-3 rounded-full px-9 py-4 text-base font-bold shadow-[0_0_24px_rgba(237,120,57,0.35)] ring-4 ring-[#ed7839]/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.03]"
+>
+  Register Now
+  <Icon name="arrow" size={18} />
+</a>
+                  <span className="text-xs text-[#77786f]">
+                    Opens Google Forms in a new tab
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 border-t border-[#ed7839]/15 bg-[#ed7839]/[0.04] px-6 py-4 text-[10px] font-medium tracking-[0.12em] text-[#77786f] sm:flex-row sm:items-center sm:justify-between sm:px-8">
+                <span>ORGANISED THROUGH IDEANOVA</span>
+                <span>IDEAS → LEARNING → INNOVATION</span>
+              </div>
             </div>
 
             <div className="hero-tagline">
