@@ -4,9 +4,15 @@ import { prisma } from "@/app/lib/prisma";
 
 export const runtime = "nodejs";
 
+type FinishError = {
+  error: string;
+  status: number;
+};
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
     const attemptId =
       typeof body.attemptId === "string" ? body.attemptId : "";
 
@@ -23,11 +29,17 @@ export async function POST(request: Request) {
       });
 
       if (!attempt) {
-        return { error: "Quiz attempt not found.", status: 404 };
+        return {
+          error: "Quiz attempt not found.",
+          status: 404,
+        } satisfies FinishError;
       }
 
       if (attempt.status !== "IN_PROGRESS") {
-        return { error: "This quiz has already been submitted.", status: 409 };
+        return {
+          error: "This quiz has already been submitted.",
+          status: 409,
+        } satisfies FinishError;
       }
 
       const now = new Date();
@@ -45,7 +57,7 @@ export async function POST(request: Request) {
         return {
           error: "Please answer all questions before submitting.",
           status: 400,
-        };
+        } satisfies FinishError;
       }
 
       const score = answers.reduce(
@@ -90,15 +102,17 @@ export async function POST(request: Request) {
       };
     });
 
-   if ("error" in result) {
-  const httpStatus =
-    typeof result.status === "number" ? result.status : 500;
-
-  return NextResponse.json(
-    { success: false, message: result.error },
-    { status: httpStatus }
-  );
-}
+    if ("error" in result) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: result.error,
+        },
+        {
+          status: result.status,
+        }
+      );
+    }
 
     return NextResponse.json({
       success: true,
@@ -108,7 +122,10 @@ export async function POST(request: Request) {
     console.error("Quiz finish error:", error);
 
     return NextResponse.json(
-      { success: false, message: "Unable to finish the quiz." },
+      {
+        success: false,
+        message: "Unable to finish the quiz.",
+      },
       { status: 500 }
     );
   }

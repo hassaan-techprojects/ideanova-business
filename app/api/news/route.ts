@@ -46,12 +46,22 @@ type GNewsArticle = {
   };
 };
 
+type NewsArticle = {
+  title: string;
+  description: string;
+  url: string;
+  image: string | null;
+  source: string;
+  seenAt: string;
+  category: string;
+};
+
 export async function GET() {
   try {
     const apiKey = process.env.GNEWS_API_KEY;
 
     if (!apiKey) {
-      console.error("GNEWS_API_KEY is missing from environment variables.");
+      console.error("GNEWS_API_KEY is missing.");
 
       return NextResponse.json(
         { error: "News service is not configured." },
@@ -72,14 +82,12 @@ export async function GET() {
       headers: {
         Accept: "application/json",
       },
-      next: {
-        revalidate: 600,
-      },
+      next: { revalidate: 600 },
       signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {
-      console.error("GNews API returned status:", response.status);
+      console.error("GNews API status:", response.status);
 
       return NextResponse.json(
         {
@@ -94,7 +102,7 @@ export async function GET() {
       );
     }
 
-    const data = await response.json();
+    const data: { articles?: GNewsArticle[] } = await response.json();
 
     if (!Array.isArray(data.articles)) {
       return NextResponse.json(
@@ -105,15 +113,15 @@ export async function GET() {
 
     const seenUrls = new Set<string>();
 
-    const articles = data.articles
-      .map((article: GNewsArticle) => {
+    const articles: NewsArticle[] = data.articles.reduce<NewsArticle[]>(
+      (validArticles, article) => {
         const title =
           typeof article.title === "string"
             ? article.title.trim()
             : "";
 
         if (!title || !article.url || !article.publishedAt) {
-          return null;
+          return validArticles;
         }
 
         let parsedUrl: URL;
@@ -121,25 +129,23 @@ export async function GET() {
         try {
           parsedUrl = new URL(article.url);
         } catch {
-          return null;
+          return validArticles;
         }
 
         if (parsedUrl.protocol !== "https:") {
-          return null;
+          return validArticles;
         }
 
         const url = parsedUrl.toString();
 
         if (seenUrls.has(url)) {
-          return null;
+          return validArticles;
         }
-
-        seenUrls.add(url);
 
         const publishedAt = new Date(article.publishedAt);
 
         if (Number.isNaN(publishedAt.getTime())) {
-          return null;
+          return validArticles;
         }
 
         let image: string | null = null;
@@ -156,12 +162,14 @@ export async function GET() {
           }
         }
 
+        seenUrls.add(url);
+
         const description =
           typeof article.description === "string"
             ? article.description.trim()
             : "";
 
-        return {
+        validArticles.push({
           title: title.slice(0, 400),
           description: description.slice(0, 600),
           url,
@@ -171,9 +179,12 @@ export async function GET() {
             parsedUrl.hostname.replace(/^www\./, ""),
           seenAt: publishedAt.toISOString(),
           category: getCategory(title, description),
-        };
-      })
-    .filter(Boolean);
+        });
+
+        return validArticles;
+      },
+      []
+    );
 
     return NextResponse.json(
       {
@@ -196,8 +207,4 @@ export async function GET() {
       { status: 503 }
     );
   }
-}
-
-function mapArticle(article: GNewsArticle) {
-  return article;
 }
