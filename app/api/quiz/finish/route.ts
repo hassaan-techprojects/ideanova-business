@@ -9,6 +9,17 @@ type FinishError = {
   status: number;
 };
 
+type FinishSuccess = {
+  score: number;
+  correctAnswers: number;
+  totalQuestions: number;
+  durationSeconds: number;
+  status: "EXPIRED" | "COMPLETED";
+  rewardUnlocked: boolean;
+};
+
+type FinishResult = FinishError | FinishSuccess;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -18,89 +29,96 @@ export async function POST(request: Request) {
 
     if (!attemptId) {
       return NextResponse.json(
-        { success: false, message: "Attempt ID is required." },
+        {
+          success: false,
+          message: "Attempt ID is required.",
+        },
         { status: 400 }
       );
     }
 
-    const result = await prisma.$transaction(async (tx) => {
-      const attempt = await tx.quizAttempt.findUnique({
-        where: { id: attemptId },
-      });
+    const result: FinishResult = await prisma.$transaction(
+      async (tx): Promise<FinishResult> => {
+        const attempt = await tx.quizAttempt.findUnique({
+          where: { id: attemptId },
+        });
 
-      if (!attempt) {
-        return {
-          error: "Quiz attempt not found.",
-          status: 404,
-        } satisfies FinishError;
-      }
+        if (!attempt) {
+          return {
+            error: "Quiz attempt not found.",
+            status: 404,
+          };
+        }
 
-      if (attempt.status !== "IN_PROGRESS") {
-        return {
-          error: "This quiz has already been submitted.",
-          status: 409,
-        } satisfies FinishError;
-      }
+        if (attempt.status !== "IN_PROGRESS") {
+          return {
+            error: "This quiz has already been submitted.",
+            status: 409,
+          };
+        }
 
-      const now = new Date();
-      const expired = now >= attempt.expiresAt;
+        const now = new Date();
+        const expired = now >= attempt.expiresAt;
 
-      const answers = await tx.quizAnswer.findMany({
-        where: { attemptId },
-        select: {
-          isCorrect: true,
-          pointsAwarded: true,
-        },
-      });
+        const answers = await tx.quizAnswer.findMany({
+          where: { attemptId },
+          select: {
+            isCorrect: true,
+            pointsAwarded: true,
+          },
+        });
 
-      if (!expired && answers.length < attempt.totalQuestions) {
-        return {
-          error: "Please answer all questions before submitting.",
-          status: 400,
-        } satisfies FinishError;
-      }
+        if (!expired && answers.length < attempt.totalQuestions) {
+          return {
+            error: "Please answer all questions before submitting.",
+            status: 400,
+          };
+        }
 
-      const score = answers.reduce(
-        (total, answer) => total + answer.pointsAwarded,
-        0
-      );
+        const score = answers.reduce(
+          (total, answer) => total + answer.pointsAwarded,
+          0
+        );
 
-      const correctAnswers = answers.filter(
-        (answer) => answer.isCorrect
-      ).length;
+        const correctAnswers = answers.filter(
+          (answer) => answer.isCorrect
+        ).length;
 
-      const durationSeconds = Math.min(
-        240,
-        Math.max(
-          0,
-          Math.floor(
-            (now.getTime() - attempt.startedAt.getTime()) / 1000
+        const durationSeconds = Math.min(
+          240,
+          Math.max(
+            0,
+            Math.floor(
+              (now.getTime() - attempt.startedAt.getTime()) / 1000
+            )
           )
-        )
-      );
+        );
 
-      const status = expired ? "EXPIRED" : "COMPLETED";
+        const status: "EXPIRED" | "COMPLETED" = expired
+          ? "EXPIRED"
+          : "COMPLETED";
 
-      await tx.quizAttempt.update({
-        where: { id: attemptId },
-        data: {
-          status,
+        await tx.quizAttempt.update({
+          where: { id: attemptId },
+          data: {
+            status,
+            score,
+            correctAnswers,
+            completedAt: now,
+            durationSeconds,
+          },
+        });
+
+        return {
           score,
           correctAnswers,
-          completedAt: now,
+          totalQuestions: attempt.totalQuestions,
           durationSeconds,
-        },
-      });
-
-      return {
-        score,
-        correctAnswers,
-        totalQuestions: attempt.totalQuestions,
-        durationSeconds,
-        status,
-        rewardUnlocked: score >= 15,
-      };
-    });
+          status,
+          rewardUnlocked: score >= 15,
+        };
+      }
+    );
 
     if ("error" in result) {
       return NextResponse.json(
@@ -108,9 +126,7 @@ export async function POST(request: Request) {
           success: false,
           message: result.error,
         },
-        {
-          status: result.status,
-        }
+        { status: result.status }
       );
     }
 
