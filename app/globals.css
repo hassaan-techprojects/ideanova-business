@@ -1,13 +1,26 @@
 
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+:root {
+  --ink: #171714;
+  --ink-soft: #383832;
+  --muted: #77766f;
+  --orange: #2563eb;
+  --orange-dark: #1d4ed8;
+  --paper: #f7f6f2;
+  --white: #ffffff;
+  --line: #e8e5de;
+  --dark: #171916;
+  --font-main: "Manrope", sans-serif;
+  --font-display: "DM Sans", sans-serif;
+}
 
 :root {
   --ink: #171714;
   --ink-soft: #383832;
   --muted: #77766f;
-  --orange: #ed7839;
-  --orange-dark: #d96027;
+  --orange: #2563eb;
+  --orange-dark: #1d4ed8;
   --paper: #f7f6f2;
   --white: #ffffff;
   --line: #e8e5de;
@@ -659,7 +672,7 @@ button {
 }
 
 .institution-copy .eyebrow {
-  color: #f29a6a;
+  color: #93c5fd;
 }
 
 .institution-copy h2 {
@@ -724,7 +737,7 @@ button {
 }
 
 .mission-card .purpose-label {
-  color: #f59b6a;
+  color: #93c5fd;
 }
 
 .purpose-icon {
@@ -739,7 +752,7 @@ button {
 
 .mission-card .purpose-icon {
   background: rgba(237, 120, 57, 0.15);
-  color: #f59b6a;
+  color: #93c5fd;
 }
 
 .purpose-card h3 {
@@ -824,7 +837,7 @@ button {
   height: 45px;
   display: grid;
   place-items: center;
-  background: #f6e9df;
+  background: #dbeafe;
   border-radius: 50%;
   color: var(--orange-dark);
   transition: background 0.25s ease, color 0.25s ease;
@@ -992,7 +1005,7 @@ button {
   height: 43px;
   display: grid;
   place-items: center;
-  background: #f6e9df;
+  background: #dbeafe;
   border-radius: 50%;
   color: var(--orange-dark);
 }
@@ -1048,7 +1061,7 @@ button {
 }
 
 .philosophy-inner .eyebrow {
-  color: #f29a6a;
+  color: #93c5fd;
 }
 
 .philosophy-inner h2 {
@@ -1231,7 +1244,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #f29a6a;
+  color: #93c5fd;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -1501,7 +1514,7 @@ button {
   align-items: center;
   gap: 10px;
   margin-top: 25px;
-  color: #f59b6a;
+  color: #93c5fd;
   font-size: 11px;
   font-weight: 800;
 }
@@ -2476,7 +2489,7 @@ button {
   border: 1px solid rgba(237, 120, 57, 0.25);
   border-radius: 50px;
   background: rgba(237, 120, 57, 0.07);
-  color: #d96529;
+  color: #1d4ed8;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -2487,7 +2500,7 @@ button {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #ed7839;
+  background: #2563eb;
   box-shadow: 0 0 0 4px rgba(237, 120, 57, 0.12);
   animation: bootcamp-pulse 1.8s infinite;
 }
@@ -2512,7 +2525,7 @@ button {
 
 .bootcamp-date {
   margin-top: 12px;
-  color: #d96529;
+  color: #1d4ed8;
   font-size: 14px;
   font-weight: 700;
 }
@@ -2527,7 +2540,7 @@ button {
 .bootcamp-coordinator {
   margin-top: 21px;
   padding-left: 15px;
-  border-left: 2px solid #ed7839;
+  border-left: 2px solid #2563eb;
 }
 
 .bootcamp-coordinator strong {
@@ -2552,6 +2565,8 @@ button {
   margin-top: 27px;
 }
 
+/* IISc BOOT CAMP REGISTRATION BUTTON */
+
 .bootcamp-register {
   display: inline-flex;
   min-height: 54px;
@@ -2561,13 +2576,13 @@ button {
   padding: 0 30px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
-  background: #ed7839;
-  color: #fff;
+  background: #2563eb;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 700;
   box-shadow:
-    0 8px 22px rgba(237, 120, 57, 0.22),
-    0 0 0 5px rgba(237, 120, 57, 0.07);
+    0 8px 22px rgba(37, 99, 235, 0.22),
+    0 0 0 5px rgba(37, 99, 235, 0.07);
   transition:
     transform 0.3s ease,
     background 0.3s ease,
@@ -2576,10 +2591,10 @@ button {
 
 .bootcamp-register:hover {
   transform: translateY(-3px);
-  background: #d96529;
+  background: #1d4ed8;
   box-shadow:
-    0 12px 28px rgba(237, 120, 57, 0.34),
-    0 0 0 7px rgba(237, 120, 57, 0.09);
+    0 12px 28px rgba(37, 99, 235, 0.34),
+    0 0 0 7px rgba(37, 99, 235, 0.09);
 }
 
 .bootcamp-register svg {
@@ -2590,34 +2605,15 @@ button {
   transform: translate(2px, -2px);
 }
 
-.bootcamp-note {
-  color: #85867e;
-  font-size: 11px;
-}
-
-.bootcamp-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 15px 30px;
-  border-top: 1px solid rgba(237, 120, 57, 0.13);
-  background: rgba(237, 120, 57, 0.045);
-  color: #85867e;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-}
-
 .register {
   color: #ffffff !important;
-  background: #171916 !important;
+  background: #2563eb !important;
 }
 
 .register:hover {
   color: #ffffff !important;
-  background: #064dd1 !important;
+  background: #1d4ed8 !important;
 }
-
 @media (max-width: 640px) {
   .bootcamp-card {
     margin-top: 28px;
