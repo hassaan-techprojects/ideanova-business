@@ -1,6 +1,6 @@
-
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import "./quiz.css";
 
@@ -243,10 +243,17 @@ export default function QuizPage() {
       {/* HEADER */}
       <header className="quiz-header">
         <div className="quiz-header-inner">
-          <a href="/" className="quiz-brand">
-            <div className="quiz-brand-mark">I</div>
+          <a href="/" className="quiz-brand" aria-label="IDEANOVA home">
+            <Image
+              src="/ideanova-logo.jpeg"
+              alt="IDEANOVA logo"
+              width={48}
+              height={48}
+              className="quiz-brand-logo"
+              priority
+            />
 
-            <div>
+            <div className="quiz-brand-copy">
               <p className="quiz-brand-name">IDEANOVA</p>
               <p className="quiz-brand-tagline">
                 Where Ideas Become Impact
