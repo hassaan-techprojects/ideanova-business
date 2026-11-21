@@ -337,7 +337,7 @@ export default function Home() {
 
           <div className="about-layout">
             <div className="about-intro">
-              <span className="about-big-mark">IN.</span>
+              <span className="about-big-mark">IN</span>
               <p>
                 The Entrepreneurship Club of
                 <br />
